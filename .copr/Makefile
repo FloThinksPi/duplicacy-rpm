@@ -6,8 +6,17 @@ SRPM := restic-$(VERSION)-$(RELEASE).src.rpm
 SOURCE := restic-$(VERSION).tar.gz
 SHA512 := $(shell grep $(SOURCE) sources | sed s'/^[^=]*= *//')
 
-srpm:
+download:
 	[ -e $(SOURCE) ] || curl -L -o $(SOURCE) https://github.com/restic/restic/releases/download/v$(VERSION)/restic-$(VERSION).tar.gz
+
+update-sources: download
+	if ( echo SHA512 "($(SOURCE))" = $$(sha512sum $(SOURCE) | cut -f 1 -d ' ') ; grep -v '(restic-.*.tar.gz)' sources || true ) > sources.new ; then \
+	    mv sources.new sources ; \
+	else \
+	    rm sources.new ; \
+	fi
+
+srpm: download
 	sha512sum --check sources
 	rpmbuild -bs restic.spec --define "_sourcedir ." --define "_srcrpmdir $(outdir)"
 
@@ -17,4 +26,4 @@ rpm: srpm
 	mv mock/*.$(ARCH).rpm .
 
 .PHONY:
-	rpm srpm
+	rpm srpm download update-source
