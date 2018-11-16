@@ -1,5 +1,5 @@
 Name:    restic
-Version: 0.8.0
+Version: 0.9.3
 Release: 1%{?dist}
 Summary: Backup program
 URL:     https://restic.github.io
@@ -29,14 +29,20 @@ install -p -m 755 %{_builddir}/%{name}-%{version}/%{name} %{buildroot}/%{_bindir
 %license LICENSE
 
 %changelog
+* Wed Nov 14 2018 Owen Taylor <otaylor@redhat.com> - 0.9.3-1
+- New version
+
 * Tue Dec 12 2017 Owen Taylor <otaylor@redhat.com> - 0.8.0-1
 - New version
 
 * Fri Sep 22 2017 Philipp Baum <phil@phib.io> - 0.7.3-1
 - New Version
+
 * Sat Sep 16 2017 Philipp Baum <phil@phib.io> - 0.7.2-1
 - New Version
+
 * Sun Aug 27 2017 Philipp Baum <phil@phib.io> - 0.7.1-1
 - New Version
+
 * Wed Mar 15 2017 Philipp Baum <phil@phib.io> - 0.5.0-1
 - Initial package build
