@@ -6,7 +6,7 @@ URL:     https://github.com/gilbertchen/duplicacy
 License: Custom License
 
 BuildRequires: golang
-Source0: duplicacy-%{version}.tar.gz
+Source0: %{name}-%{version}.tar.gz
 
 %define debug_package %{nil}
 
@@ -14,20 +14,27 @@ Source0: duplicacy-%{version}.tar.gz
 Duplicacy is a new generation cross-platform cloud backup tool based on the idea of Lock-Free Deduplication.
 
 %prep
-%autosetup
+%setup -q -n %{name}-%{version}
+rm -rf vendor
 
 %build
-go get ./...
-go run duplicacy/duplicacy_main.go
+mkdir -p ./_build/src/github.com/gilbertchen
+export GOPATH=$(pwd)/_build:%{gopath}
+go get -d ./...
+rm -rf ./_build/src/github.com/gilbertchen/duplicacy
+ln -s $(pwd) ./_build/src/github.com/gilbertchen/duplicacy
+cd ./_build/src/github.com/gilbertchen/duplicacy
+go build -o duplicacy/%{name} duplicacy/duplicacy_main.go
 
 %install
-mkdir -p %{buildroot}/%{_bindir}
-install -p -m 755 %{_builddir}/%{name}-%{version}/%{name} %{buildroot}/%{_bindir}
+install -d %{buildroot}%{_bindir}
+install -p -m 0755 ./duplicacy/%{name} %{buildroot}%{_bindir}/%{name}
 
 %files
+%defattr(-,root,root,-)
 %{_bindir}/%{name}
-
-%license LICENSE
+%doc README.md LICENSE.md GUIDE.md DESIGN.md ACKNOWLEDGEMENTS.md
+%license LICENSE.md
 
 %changelog
 
