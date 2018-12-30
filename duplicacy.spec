@@ -30,5 +30,5 @@ install -p -m 755 %{_builddir}/%{name}-%{version}/%{name} %{buildroot}/%{_bindir
 %license LICENSE
 
 %changelog
-* Sun Nov 14 2018 Florian Braun - 2.1.1
+* Sun Dez 30 2018 Florian Braun - 2.1.1
 - Initial Version

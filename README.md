@@ -1,10 +1,17 @@
-This repository holds the spec file and associated Makefiles used for the [otaylor/restic](https://copr.fedorainfracloud.org/coprs/otaylor/restic/) COPR.
+This repository holds the spec file and associated Makefiles used for the [flothinkspi/duplicacy](https://copr.fedorainfracloud.org/coprs/flothinkspi/duplicacy/) COPR.
 
-Updating the version
+Manually Updating to the newest version
 --------------------
-
-* Update version in spec file, add a changelog entry
+* Edit Version, Changelog and Revision in Specfile
 * Run `make update-sources`
 * Commit the result
 * Push to upstream
 * Start a new copr build (or set up a webhook to build on push)
+
+
+Autoupdating on new Release
+--------------------
+
+* Run triggerBuild.sh via CRON every X Minutes
+* The Script will look for a newer Version on Github Releases than defined in the Specfile
+* If a newer Version is Found it will edit the Specfile, trigger `make update-sources` and automatically commit and push the Changes which triggers the COPR webhook.

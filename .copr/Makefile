@@ -1,16 +1,16 @@
 outdir = .
-VERSION := $(shell rpm -q --queryformat='%{version}' --specfile restic.spec)
-RELEASE := $(shell rpm -q --queryformat='%{release}' --specfile restic.spec)
-ARCH := $(shell rpm -q --queryformat='%{arch}' --specfile restic.spec)
-SRPM := restic-$(VERSION)-$(RELEASE).src.rpm
-SOURCE := restic-$(VERSION).tar.gz
+VERSION := $(shell rpm -q --queryformat='%{version}' --specfile duplicacy.spec)
+RELEASE := $(shell rpm -q --queryformat='%{release}' --specfile duplicacy.spec)
+ARCH := $(shell rpm -q --queryformat='%{arch}' --specfile duplicacy.spec)
+SRPM := duplicacy-$(VERSION)-$(RELEASE).src.rpm
+SOURCE := duplicacy-$(VERSION).tar.gz
 SHA512 := $(shell grep $(SOURCE) sources | sed s'/^[^=]*= *//')
 
 download:
-	[ -e $(SOURCE) ] || curl -L -o $(SOURCE) https://github.com/restic/restic/releases/download/v$(VERSION)/restic-$(VERSION).tar.gz
+	[ -e $(SOURCE) ] || curl -L -o $(SOURCE) https://github.com/gilbertchen/duplicacy/releases/download/v$(VERSION)/duplicacy-$(VERSION).tar.gz
 
 update-sources: download
-	if ( echo SHA512 "($(SOURCE))" = $$(sha512sum $(SOURCE) | cut -f 1 -d ' ') ; grep -v '(restic-.*.tar.gz)' sources || true ) > sources.new ; then \
+	if ( echo SHA512 "($(SOURCE))" = $$(sha512sum $(SOURCE) | cut -f 1 -d ' ') ; grep -v '(duplicacy-.*.tar.gz)' sources || true ) > sources.new ; then \
 	    mv sources.new sources ; \
 	else \
 	    rm sources.new ; \
@@ -18,7 +18,7 @@ update-sources: download
 
 srpm: download
 	sha512sum --check sources
-	rpmbuild -bs restic.spec --define "_sourcedir ." --define "_srcrpmdir $(outdir)"
+	rpmbuild -bs duplicacy.spec --define "_sourcedir ." --define "_srcrpmdir $(outdir)"
 
 rpm: srpm
 	rm mock/*.rpm
