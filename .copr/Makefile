@@ -7,7 +7,7 @@ SOURCE := duplicacy-$(VERSION).tar.gz
 SHA512 := $(shell grep $(SOURCE) sources | sed s'/^[^=]*= *//')
 
 download:
-	[ -e $(SOURCE) ] || curl -L -o $(SOURCE) https://github.com/gilbertchen/duplicacy/releases/download/v$(VERSION)/duplicacy-$(VERSION).tar.gz
+	[ -e $(SOURCE) ] || curl -L -o $(SOURCE) https://github.com/gilbertchen/duplicacy/archive/v$(VERSION).tar.gz
 
 update-sources: download
 	if ( echo SHA512 "($(SOURCE))" = $$(sha512sum $(SOURCE) | cut -f 1 -d ' ') ; grep -v '(duplicacy-.*.tar.gz)' sources || true ) > sources.new ; then \
@@ -21,8 +21,8 @@ srpm: download
 	rpmbuild -bs duplicacy.spec --define "_sourcedir ." --define "_srcrpmdir $(outdir)"
 
 rpm: srpm
-	rm mock/*.rpm
-	mock --rebuild --resultdir=mock $(SRPM)
+	rm -f mock/*.rpm
+	mock --rebuild --enable-network --resultdir=mock $(SRPM)
 	mv mock/*.$(ARCH).rpm .
 
 .PHONY:

@@ -6,7 +6,7 @@ URL:     https://github.com/gilbertchen/duplicacy
 License: Custom License
 
 BuildRequires: golang
-Source0: https://github.com/gilbertchen/%{name}/archive/v%{version}.tar.gz
+Source0: duplicacy-%{version}.tar.gz
 
 %define debug_package %{nil}
 
@@ -17,7 +17,7 @@ Duplicacy is a new generation cross-platform cloud backup tool based on the idea
 %autosetup
 
 %build
-#go get ./...
+go get ./...
 go run duplicacy/duplicacy_main.go
 
 %install
