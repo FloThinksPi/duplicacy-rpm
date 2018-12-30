@@ -1,4 +1,5 @@
 This repository holds the spec file and associated Makefiles used for the [flothinkspi/duplicacy](https://copr.fedorainfracloud.org/coprs/flothinkspi/duplicacy/) COPR.
+This Project only packages https://github.com/gilbertchen/duplicacy for Fedora/Centos Distributions.
 
 Manually Updating to the newest version
 --------------------
