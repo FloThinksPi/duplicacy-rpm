@@ -16,6 +16,15 @@ Manually Updating to the newest version
 Autoupdating on new Release
 --------------------
 
-* Run triggerBuild.sh via CRON every X Minutes
+* Run autoUpdate.sh scheduled
 * The Script will look for a newer Version on Github Releases than defined in the Specfile
-* If a newer Version is Found it will edit the Specfile, trigger `make update-sources` and automatically commit and push the Changes which triggers the COPR webhook.
+* If a newer Version is Found it will edit the files `dulpicacy.spec` and `sources` and make a commit
+* You then have to automatically push them into the repo.
+* When a webhook is defined Copr will see the changed specfile and sources file and trigger a new build.
+
+This procedure is done in a [Github Action File](https://github.com/FloThinksPi/duplicacy-rpm/blob/master/.github/workflows/autoupdate_version.yml).
+
+The Logs for the update job can be found [here](https://github.com/FloThinksPi/duplicacy-rpm/actions).
+
+The Logs for the bould of rpm packages can be found [here](https://copr.fedorainfracloud.org/coprs/flothinkspi/duplicacy/builds/).
+

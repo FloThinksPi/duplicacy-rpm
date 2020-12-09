@@ -1,11 +1,11 @@
-all:
-	@echo Usage: make [srpm/rpm/clean]
-
 srpm:
 	make -f .copr/Makefile srpm
 
 rpm:
 	make -f .copr/Makefile rpm
+
+download:
+	make -f .copr/Makefile download
 
 update-sources:
 	make -f .copr/Makefile update-sources

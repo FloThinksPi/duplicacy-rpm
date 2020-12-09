@@ -5,7 +5,7 @@ Summary: Backup software written in golang
 URL:     https://github.com/gilbertchen/duplicacy
 License: Custom License
 
-BuildRequires: golang
+BuildRequires: golang git
 Source0: %{name}-%{version}.tar.gz
 
 %define debug_package %{nil}
@@ -16,15 +16,17 @@ Duplicacy is a new generation cross-platform cloud backup tool based on the idea
 %prep
 %setup -q -n %{name}-%{version}
 rm -rf vendor
+exit
 
 %build
 mkdir -p ./_build/src/github.com/gilbertchen
 export GOPATH=$(pwd)/_build:%{gopath}
-go get -d ./...
+GO111MODULE=on go mod init github.com/gilbertchen/duplicacy || true
+GO111MODULE=on go get -d ./...
 rm -rf ./_build/src/github.com/gilbertchen/duplicacy
 ln -s $(pwd) ./_build/src/github.com/gilbertchen/duplicacy
 cd ./_build/src/github.com/gilbertchen/duplicacy
-go build -o duplicacy/%{name} duplicacy/duplicacy_main.go
+GO111MODULE=on go build -o duplicacy/%{name} duplicacy/duplicacy_main.go
 
 %install
 install -d %{buildroot}%{_bindir}
