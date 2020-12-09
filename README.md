@@ -1,4 +1,6 @@
-<div><a href="https://copr.fedorainfracloud.org/coprs/flothinkspi/duplicacy/package/duplicacy/"><img src="https://copr.fedorainfracloud.org/coprs/flothinkspi/duplicacy/package/duplicacy/status_image/last_build.png" /></a></div>
+<div><a href="https://copr.fedorainfracloud.org/coprs/flothinkspi/duplicacy/package/duplicacy/"><img src="https://copr.fedorainfracloud.org/coprs/flothinkspi/duplicacy/package/duplicacy/status_image/last_build.png" /></a><br><br></div>
+
+# Duplicacy-RPM
 
 This repository holds the spec file and associated Makefiles used for the [flothinkspi/duplicacy](https://copr.fedorainfracloud.org/coprs/flothinkspi/duplicacy/) COPR.
 
