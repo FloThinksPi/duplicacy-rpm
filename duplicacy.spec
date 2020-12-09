@@ -1,6 +1,6 @@
 Name:    duplicacy
 Version: 2.7.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Backup software written in golang
 URL:     https://github.com/gilbertchen/duplicacy
 License: Custom License
@@ -16,6 +16,14 @@ Duplicacy is a new generation cross-platform cloud backup tool based on the idea
 %prep
 %setup -q -n %{name}-%{version}
 rm -rf vendor
+
+%if 0%{el7}
+    # Work around a git-go conflict in el7
+    yum -y remove git*
+    yum -y install  https://centos7.iuscommunity.org/ius-release.rpm
+    yum -y install  git2u-all
+%endif
+
 exit
 
 %build
@@ -26,7 +34,8 @@ GO111MODULE=on go get -d ./...
 rm -rf ./_build/src/github.com/gilbertchen/duplicacy
 ln -s $(pwd) ./_build/src/github.com/gilbertchen/duplicacy
 cd ./_build/src/github.com/gilbertchen/duplicacy
-GO111MODULE=on go build -o duplicacy/%{name} duplicacy/duplicacy_main.go
+version="FloThinksPi-Copr[$(uname -m)-rpm-package"
+GO111MODULE=on go build -o duplicacy/%{name} -ldflags "-X main.GitCommit=$version]" duplicacy/duplicacy_main.go
 
 %install
 install -d %{buildroot}%{_bindir}
