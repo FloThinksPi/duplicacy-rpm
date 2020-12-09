@@ -5,7 +5,12 @@ Summary: Backup software written in golang
 URL:     https://github.com/gilbertchen/duplicacy
 License: Custom License
 
+%if 0%{?el7}
+# Work around a git-go conflict in el7
+BuildRequires: golang yum
+%else
 BuildRequires: golang git
+%endif
 Source0: %{name}-%{version}.tar.gz
 
 %define debug_package %{nil}
@@ -17,7 +22,7 @@ Duplicacy is a new generation cross-platform cloud backup tool based on the idea
 %setup -q -n %{name}-%{version}
 rm -rf vendor
 
-%if 0%{el7}
+%if 0%{?el7}
     # Work around a git-go conflict in el7
     yum -y remove git*
     yum -y install  https://centos7.iuscommunity.org/ius-release.rpm
