@@ -1,16 +1,11 @@
 Name:    duplicacy
 Version: 2.7.2
-Release: 2%{?dist}
+Release: 4%{?dist}
 Summary: Backup software written in golang
 URL:     https://github.com/gilbertchen/duplicacy
 License: Custom License
+BuildRequires: curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc wget golang autoconf
 
-%if 0%{?el7}
-# Work around a git-go conflict in el7
-BuildRequires: golang yum
-%else
-BuildRequires: golang git
-%endif
 Source0: %{name}-%{version}.tar.gz
 
 %define debug_package %{nil}
@@ -20,18 +15,25 @@ Duplicacy is a new generation cross-platform cloud backup tool based on the idea
 
 %prep
 %setup -q -n %{name}-%{version}
-rm -rf vendor
-
-%if 0%{?el7}
-    # Work around a git-go conflict in el7
-    yum -y remove git*
-    yum -y install  https://centos7.iuscommunity.org/ius-release.rpm
-    yum -y install  git2u-all
-%endif
-
+rm -rf vendor 
+# # Install Golang
+# wget https://storage.googleapis.com/golang/getgo/installer_linux
+# chmod +x ./installer_linux
+# ./installer_linux
+# Install Git
+wget -O git.tar.gz https://github.com/git/git/archive/v2.29.2.tar.gz
+mkdir git
+tar -zxf git.tar.gz -C git --strip-components=1
+cd git
+make configure
+./configure --prefix=$HOME
+make -j 8 all
+make install
 exit
 
 %build
+export PATH="$HOME/bin:$PATH"
+git --version
 mkdir -p ./_build/src/github.com/gilbertchen
 export GOPATH=$(pwd)/_build:%{gopath}
 GO111MODULE=on go mod init github.com/gilbertchen/duplicacy || true
@@ -39,8 +41,8 @@ GO111MODULE=on go get -d ./...
 rm -rf ./_build/src/github.com/gilbertchen/duplicacy
 ln -s $(pwd) ./_build/src/github.com/gilbertchen/duplicacy
 cd ./_build/src/github.com/gilbertchen/duplicacy
-version="FloThinksPi-Copr[$(uname -m)-rpm-package"
-GO111MODULE=on go build -o duplicacy/%{name} -ldflags "-X main.GitCommit=$version]" duplicacy/duplicacy_main.go
+version="FloThinksPi-Copr[$(uname -m)-rpm-package]"
+GO111MODULE=on go build -o duplicacy/%{name} -ldflags "-X main.GitCommit=$version" duplicacy/duplicacy_main.go
 
 %install
 install -d %{buildroot}%{_bindir}
