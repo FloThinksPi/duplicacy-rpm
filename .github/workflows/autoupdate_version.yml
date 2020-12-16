@@ -30,19 +30,14 @@ jobs:
       - name: Execute Update Script
         run: ./autoUpdate.sh
 
-      # Check if update script changed files
-      - name: Check for changes
-        run: |
-          git diff
-          if git diff --exit-code; then
-            echo "changes_exist=true" >> $GITHUB_ENV
-          else
-            echo "changes_exist=false" >> $GITHUB_ENV
-          fi
+      # Check for changed files    
+      - name: Check if there are changes
+        id: changes
+        uses: UnicornGlobal/has-changes-action@v1.0.11
 
       # Push new update commits if done by the Update Script
       - name: Push changes
-        if: ${{ env.changes_exist == 'true' }}
+        if: steps.changes.outputs.changed == 1
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUBTOKEN }}
@@ -50,7 +45,7 @@ jobs:
 
       # Send me a notification on new versions
       - name: GitHub Action for Pushover Notifications
-        if: ${{ env.changes_exist == 'true' }}
+        if: steps.changes.outputs.changed == 1
         uses: desiderati/github-action-pushover@v1
         with:
           job-status: "A new version of duplicacy will be build"
