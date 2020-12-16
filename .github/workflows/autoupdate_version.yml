@@ -1,4 +1,4 @@
-name: Trigger Copr Build
+name: Autoupdate Duplicacy Version
 
 # Run hourly
 on:
@@ -33,6 +33,7 @@ jobs:
       # Check if update script changed files
       - name: Check for changes
         run: |
+          git diff
           if git diff --exit-code; then
             echo "changes_exist=true" >> $GITHUB_ENV
           else
