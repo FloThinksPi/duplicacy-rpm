@@ -1,6 +1,6 @@
 Name:    duplicacy
-Version: 2.7.2
-Release: 4%{?dist}
+Version: ull
+Release: 1%{?dist}
 Summary: Backup software written in golang
 URL:     https://github.com/gilbertchen/duplicacy
 License: Custom License
@@ -55,6 +55,10 @@ install -p -m 0755 ./duplicacy/%{name} %{buildroot}%{_bindir}/%{name}
 %license LICENSE.md
 
 %changelog
+
+* Sun Jan 17 2021 Florian Braun - ull
+null
+
 
 * Wed Dec 09 2020 Florian Braun - 2.7.2
 - Make -vss work with Big Sur: https://github.com/gilbertchen/duplicacy/commit/7c36311aa973c4189a68c4eae4191fa8bf9417e9
