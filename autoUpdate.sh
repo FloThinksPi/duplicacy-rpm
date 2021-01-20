@@ -24,7 +24,7 @@ if verlt $currentVersion $newestVersion
     changelog=$(printf "* ";LANG=en_us_88591; echo -n `date +'%a %b %d %Y'`; printf " $author - $newestVersion\n"; curl --silent "https://api.github.com/repos/gilbertchen/duplicacy/releases/latest" | jq -r .body | sed 's/^\*/-/g')
     awk -v changelog="\n$changelog\n" '{print} /%changelog/{print changelog}' duplicacy.spec > tmp && mv tmp duplicacy.spec
     make update-sources
-    git commit -m "Updated Package from Version $currentVersion to $newestVersion" duplicacy.spec sources && git push
+    git commit -m "Updated Package from Version $currentVersion to $newestVersion" duplicacy.spec sources
   else
     echo "Nothing to do."
 fi

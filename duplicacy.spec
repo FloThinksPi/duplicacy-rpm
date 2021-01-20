@@ -1,6 +1,6 @@
 Name:    duplicacy
 Version: 2.7.2
-Release: 1%{?dist}
+Release: 5%{?dist}
 Summary: Backup software written in golang
 URL:     https://github.com/gilbertchen/duplicacy
 License: Custom License
@@ -55,24 +55,6 @@ install -p -m 0755 ./duplicacy/%{name} %{buildroot}%{_bindir}/%{name}
 %license LICENSE.md
 
 %changelog
-
-* Wed Jan 20 2021 Florian Braun - 2.7.2
-- Make -vss work with Big Sur: https://github.com/gilbertchen/duplicacy/commit/7c36311aa973c4189a68c4eae4191fa8bf9417e9
-- Skip chunks already verified in previous runs when running `check -chunks`: https://github.com/gilbertchen/duplicacy/commit/d7c1903d5a5b06716265a3ea24bd135764a0813d
-- Fixed reading/writing extended attributes on Linux by switching to github.com/pkg/xattr: https://github.com/gilbertchen/duplicacy/commit/b392302c0680ca4de569630031c43bab21f51d82
-- Fixed a bug that caused a fresh restore of large files to fail without the -overwrite option: https://github.com/gilbertchen/duplicacy/commit/bec3a0edcd6329ed57d287eec996858a3621f567
-- Validate that a repository id can only contain letters, numbers, dashes, and underscores: https://github.com/gilbertchen/duplicacy/commit/5eed6c65f688aa5dda1c45143837f4f0f886fff4
-- Fixed a crash in the Dropbox backend caused by a nil Seeker: https://github.com/gilbertchen/go-dropbox/commit/2233fa1dd846b3a3e8060b6c1ea12883deb9d288
-
-
-* Wed Jan 20 2021 Florian Braun - 2.7.2
-- Make -vss work with Big Sur: https://github.com/gilbertchen/duplicacy/commit/7c36311aa973c4189a68c4eae4191fa8bf9417e9
-- Skip chunks already verified in previous runs when running `check -chunks`: https://github.com/gilbertchen/duplicacy/commit/d7c1903d5a5b06716265a3ea24bd135764a0813d
-- Fixed reading/writing extended attributes on Linux by switching to github.com/pkg/xattr: https://github.com/gilbertchen/duplicacy/commit/b392302c0680ca4de569630031c43bab21f51d82
-- Fixed a bug that caused a fresh restore of large files to fail without the -overwrite option: https://github.com/gilbertchen/duplicacy/commit/bec3a0edcd6329ed57d287eec996858a3621f567
-- Validate that a repository id can only contain letters, numbers, dashes, and underscores: https://github.com/gilbertchen/duplicacy/commit/5eed6c65f688aa5dda1c45143837f4f0f886fff4
-- Fixed a crash in the Dropbox backend caused by a nil Seeker: https://github.com/gilbertchen/go-dropbox/commit/2233fa1dd846b3a3e8060b6c1ea12883deb9d288
-
 
 * Wed Dec 09 2020 Florian Braun - 2.7.2
 - Make -vss work with Big Sur: https://github.com/gilbertchen/duplicacy/commit/7c36311aa973c4189a68c4eae4191fa8bf9417e9
