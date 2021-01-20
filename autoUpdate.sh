@@ -9,6 +9,9 @@ verlte() {
 verlt() {
     [ "$1" = "$2" ] && return 1 || verlte $1 $2
 }
+isver() {
+  [[ $1 =~ ^[0-9]+\.[0-9]+ ]]
+}
 # End From
 
 newestVersion=$(curl --silent "https://api.github.com/repos/gilbertchen/duplicacy/releases/latest" | jq -r .tag_name | tail -c +2)
@@ -16,7 +19,13 @@ currentVersion=$(grep -e "Version: *[0-9\.]*" duplicacy.spec | tail -c +10)
 
 echo "Current Version is $currentVersion and newest is $newestVersion"
 
-if verlt $currentVersion $newestVersion 
+if ! isver $newestVersion
+then
+  echo "New version is not a Version"
+  exit 1
+fi
+
+if verlt $currentVersion $newestVersion
   then
     echo "I am going to update the package."
     sed -i "0,/Version: [0-9/.]*/{s/Version: [0-9/.]*/Version: $newestVersion/}" duplicacy.spec
